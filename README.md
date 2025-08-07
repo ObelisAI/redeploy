@@ -8,7 +8,7 @@ This GitHub Action allows you to trigger a redeploy of your Obelis project direc
 
 ```yaml
 - name: Redeploy Project
-  uses: ./.github/actions/redeploy
+  uses: ObelisAI/redeploy
   with:
     project_id: 'your-project-id'
     api_key: ${{ secrets.OBELIS_API_KEY }}
@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Redeploy Project
-        uses: ./.github/actions/redeploy
+        uses: ObelisAI/redeploy
         with:
           project_id: 'your-project-id'
           api_key: ${{ secrets.OBELIS_API_KEY }}
@@ -56,12 +56,12 @@ jobs:
 
 ### 1. Get Your Project ID
 
-You can find your project ID in the Obelis dashboard or by calling the projects API endpoint.
+You can find your project ID in your Obelis AI project details.
 
 ### 2. Create API Key
 
-1. Go to your Obelis dashboard
-2. Navigate to Settings → API Keys
+1. Go to your Obelis AI dashboard
+2. Navigate to Account Settings → API Keys
 3. Create a new API key
 4. Copy the key value
 
