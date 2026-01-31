@@ -21,7 +21,7 @@ runs:
         echo "🌐 Calling Obelis API redeploy endpoint..."
         
         # Construct the full API URL
-        API_URL="https://api.obelis.ai/api/v1/deploy/redeploy/${{ inputs.project_id }}"
+        API_URL="https://api.obelis.ai/deploy/action/${{ inputs.project_id }}"
         
         # Prepare curl command with authentication
         CURL_CMD="curl -s -w '%{http_code}' --max-time 300"
