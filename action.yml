@@ -21,7 +21,7 @@ runs:
         echo "🌐 Calling Obelis API redeploy endpoint..."
         
         # Construct the full API URL
-        API_URL="https://f731603a0ecb.ngrok-free.app/deploy/action/${{ inputs.project_id }}"
+        API_URL="https://api.obelis.ai/deploy/action/${{ inputs.project_id }}"
         
         # Prepare curl command with authentication
         CURL_CMD="curl -s -w '%{http_code}' --max-time 300"
@@ -46,21 +46,27 @@ runs:
         
         echo "status=$STATUS_CODE" >> $GITHUB_OUTPUT
         
-        # Always output response for debugging
-        echo "Response Status: $STATUS_CODE"
-        echo "Response Body: $RESPONSE_BODY"
+        # Output response in collapsible section
+        echo "::group::Response details"
+        echo "Status: $STATUS_CODE"
+        echo "Body: $RESPONSE_BODY"
+        echo "::endgroup::"
+        
         echo "response<<EOF" >> $GITHUB_OUTPUT
         echo "$RESPONSE_BODY" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
         
         # Check if request was successful
+        PROJECT_URL="https://app.obelis.ai/projects/${{ inputs.project_id }}"
         if [ "$STATUS_CODE" -ge 200 ] && [ "$STATUS_CODE" -lt 300 ]; then
-          echo "✅ Redeploy started successfuly (Status: $STATUS_CODE)"
+          echo "::notice::Redeploy started successfully (Status: $STATUS_CODE)"
+          echo "::notice::Project: $PROJECT_URL"
           echo "success=true" >> $GITHUB_OUTPUT
+          echo "project_url=$PROJECT_URL" >> $GITHUB_OUTPUT
         else
-          echo "❌ Redeploy failed to start (Status: $STATUS_CODE)"
+          echo "::error::Redeploy failed to start (Status: $STATUS_CODE)"
+          echo "::error::Response: $RESPONSE_BODY"
           echo "success=false" >> $GITHUB_OUTPUT
-          echo "Response: $RESPONSE_BODY"
           exit 1
         fi
 
